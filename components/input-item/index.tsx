@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TouchFeedback from 'rmc-feedback';
-import { getComponentLocale } from '../_util/getLocale';
 import CustomInput from './CustomInput';
 import Input from './Input';
 import { InputItemPropsType } from './PropsType';
@@ -216,17 +215,10 @@ class InputItem extends React.Component<InputItemProps, any> {
     const { name, disabled, maxLength } = restProps;
     const { value } = this.state;
 
-    // tslint:disable-next-line:variable-name
-    const _locale = getComponentLocale(
-      this.props,
-      this.context,
-      'InputItem',
-      () => require('./locale/zh_CN'),
-    );
-
-    const { confirmLabel } = _locale;
-
-    const { placeholder, focus } = this.state;
+    const {
+      focus,
+      placeholder,
+    } = this.state;
 
     const wrapCls = classnames(
       `${prefixListCls}-item`,
@@ -296,7 +288,6 @@ class InputItem extends React.Component<InputItemProps, any> {
                 editable={editable}
                 prefixCls={prefixCls}
                 style={style}
-                confirmLabel={confirmLabel}
                 moneyKeyboardAlign={moneyKeyboardAlign}
               />
             ) : (

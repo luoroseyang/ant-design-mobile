@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import React from 'react';
 import TouchFeedback from 'rmc-feedback';
 import { Omit } from '../_util/types';
+import { getComponentLocale } from '../_util/getLocale';
 
 export type HTMLTableDataProps = Omit<
   React.HTMLProps<HTMLTableDataCellElement>,
@@ -96,7 +97,19 @@ class CustomKeyboard extends React.Component<any, any> {
     );
   }
   render() {
-    const { prefixCls, confirmLabel } = this.props;
+    const { prefixCls } = this.props;
+    const _locale = getComponentLocale(
+      this.props,
+      this.context,
+      'InputItem',
+      () => require('./locale/zh_CN'),
+    );
+
+    const {
+      confirmLabel,
+      backspaceLabel,
+      cancelKeyboardLabel,
+    } = _locale;
 
     const wrapperCls = classnames(
       `${prefixCls}-wrapper`,
@@ -113,6 +126,8 @@ class CustomKeyboard extends React.Component<any, any> {
                 this.renderKeyboardItem(item, index),
               )}
               <KeyboardItem
+                role="button"
+                aria-label={backspaceLabel}
                 className="keyboard-delete"
                 rowSpan={2}
                 onClick={this.onKeyboardClick}
@@ -144,6 +159,8 @@ class CustomKeyboard extends React.Component<any, any> {
                 this.renderKeyboardItem(item, index),
               )}
               <KeyboardItem
+                role="button"
+                aria-label={cancelKeyboardLabel}
                 className="keyboard-hide"
                 onClick={this.onKeyboardClick}
               />

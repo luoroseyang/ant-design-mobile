@@ -19,7 +19,6 @@ export interface NumberInputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: InputEventHandler;
   onBlur?: InputEventHandler;
-  confirmLabel: any;
   maxLength?: number;
   type?: string;
   style?: React.CSSProperties;
@@ -61,7 +60,7 @@ class NumberInput extends React.Component<NumberInputProps, any> {
     }
   }
 
-  componentDidMount() {
+  componentDidUpdate() {
     this.renderCustomKeyboard();
   }
 
@@ -88,13 +87,11 @@ class NumberInput extends React.Component<NumberInputProps, any> {
   }
 
   getComponent() {
-    const { keyboardPrefixCls, confirmLabel } = this.props;
     return (
       <CustomKeyboard
         ref={this.saveRef}
         onClick={this.onKeyboardClick}
-        preixCls={keyboardPrefixCls}
-        confirmLabel={confirmLabel}
+        preixCls={this.props.keyboardPrefixCls}
       />
     );
   }
@@ -113,7 +110,7 @@ class NumberInput extends React.Component<NumberInputProps, any> {
   }
 
   renderCustomKeyboard() {
-    if (IS_REACT_16 || customNumberKeyboard) {
+    if (IS_REACT_16) {
       return;
     }
     customNumberKeyboard = ReactDOM.unstable_renderSubtreeIntoContainer(
@@ -294,6 +291,8 @@ class NumberInput extends React.Component<NumberInputProps, any> {
           <div className="fake-input-placeholder">{placeholder}</div>
         )}
         <div
+          role="textbox"
+          aria-label={value || placeholder}
           className={fakeInputCls}
           ref={el => (this.inputRef = el)}
           onClick={preventKeyboard ? () => {} : this.onFakeInputClick}
